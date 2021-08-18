@@ -53,6 +53,7 @@ static const struct { uint32_t address; uint32_t rmask; } reserved[] = {
  */
 int addr_is_reserved(const char * addr_str)
 {
+#ifdef MINIUPNPC_CHECK_ADDR_RESERVED
 	uint32_t addr_n, address;
 	size_t i;
 
@@ -74,6 +75,6 @@ int addr_is_reserved(const char * addr_str)
 		if ((address >> reserved[i].rmask) == (reserved[i].address >> reserved[i].rmask))
 			return 1;
 	}
-
+#endif
 	return 0;
 }
