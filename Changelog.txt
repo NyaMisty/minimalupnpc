@@ -526,7 +526,7 @@ VERSION 1.3 :
   cleanup in Makefile (thanks to Paul de Weerd)
   minissdpc.c : win32 compatibility
   miniupnpc.c : changed xmlns prefix from 'm' to 'u'
-  Removed NDEBUG (using DEBUG)
+  Removed NDEBUG (using MINIUPNP_DEBUG)
 
 2008/10/14:
   Added the ExternalHost argument to DeletePortMapping()
@@ -578,7 +578,7 @@ VERSION 1.1 :
 VERSION 1.0 :
 
 2008/02/21:
-  put some #ifdef DEBUG around DisplayNameValueList()
+  put some #ifdef MINIUPNP_DEBUG around DisplayNameValueList()
 
 2008/02/18:
   Improved error reporting in upnpcommands.c

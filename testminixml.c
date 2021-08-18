@@ -58,9 +58,9 @@ void burptest(const char * buffer, int bufsize)
 	parser.endeltfunc = IGDendelt;
 	parser.datafunc = IGDdata;
 	parsexml(&parser);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printIGD(&data);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 }
 
 /* ----- main ---- */

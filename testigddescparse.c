@@ -124,9 +124,9 @@ int test_igd_desc_parse(char * buffer, int len, FILE * f)
 	parser.endeltfunc = IGDendelt;
 	parser.datafunc = IGDdata;
 	parsexml(&parser);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printIGD(&igd);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 	GetUPNPUrls(&urls, &igd, "http://fake/desc/url/file.xml", 0);
 	printf("ipcondescURL='%s'\n", urls.ipcondescURL);
 	printf("controlURL='%s'\n", urls.controlURL);

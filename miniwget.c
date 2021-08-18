@@ -83,7 +83,7 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 	unsigned int content_buf_used = 0;
 	char chunksize_buf[32];
 	unsigned int chunksize_buf_index;
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	char * reason_phrase = NULL;
 	int reason_phrase_len = 0;
 #endif
@@ -92,9 +92,9 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 	header_buf = malloc(header_buf_len);
 	if(header_buf == NULL)
 	{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		fprintf(stderr, "%s: Memory allocation error\n", "getHTTPResponse");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		*size = -1;
 		return NULL;
 	}
@@ -102,9 +102,9 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 	if(content_buf == NULL)
 	{
 		free(header_buf);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		fprintf(stderr, "%s: Memory allocation error\n", "getHTTPResponse");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		*size = -1;
 		return NULL;
 	}
@@ -186,21 +186,21 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 								}
 								else
 								{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 									reason_phrase = header_buf + sp + 1;
 									reason_phrase_len = i - sp - 1;
 #endif
 									break;
 								}
 							}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 						printf("HTTP status code = %d, Reason phrase = %.*s\n",
 						       *status_code, reason_phrase_len, reason_phrase);
 #endif
 					}
 					else if(colon > linestart && valuestart > colon)
 					{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 						printf("header='%.*s', value='%.*s'\n",
 						       colon-linestart, header_buf+linestart,
 						       i-valuestart, header_buf+valuestart);
@@ -208,14 +208,14 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 						if(0==strncasecmp(header_buf+linestart, "content-length", colon-linestart))
 						{
 							content_length = atoi(header_buf+valuestart);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 							printf("Content-Length: %d\n", content_length);
 #endif
 						}
 						else if(0==strncasecmp(header_buf+linestart, "transfer-encoding", colon-linestart)
 						   && 0==strncasecmp(header_buf+valuestart, "chunked", 7))
 						{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 							printf("chunked transfer-encoding!\n");
 #endif
 							chunked = 1;
@@ -275,12 +275,12 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 						/* not finished to get chunksize */
 						continue;
 					}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 					printf("chunksize = %u (%x)\n", chunksize, chunksize);
 #endif
 					if(chunksize == 0)
 					{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 						printf("end of HTTP content - %d %d\n", i, n);
 						/*printf("'%.*s'\n", n-i, buf+i);*/
 #endif
@@ -346,7 +346,7 @@ getHTTPResponse(SOCKET s, int * size, int * status_code)
 		/* use the Content-Length header value if available */
 		if(content_length > 0 && content_buf_used >= (unsigned int)content_length)
 		{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 			printf("End of HTTP content\n");
 #endif
 			break;
@@ -435,7 +435,7 @@ miniwget3(const char * host,
 			}
 #endif
 		}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("address miniwget : %s\n", addr_str);
 #endif
 	}
@@ -494,7 +494,7 @@ miniwget2(const char * host,
 	                       scope_id, status_code);
 	if (*size == 0)
 	{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("Retrying with HTTP/1.1\n");
 #endif
 		free(respbuffer);
@@ -635,7 +635,7 @@ miniwget(const char * url, int * size,
 	*size = 0;
 	if(!parseURL(url, hostname, &port, &path, &scope_id))
 		return NULL;
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printf("parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
 	       hostname, port, path, scope_id);
 #endif
@@ -656,7 +656,7 @@ miniwget_getaddr(const char * url, int * size,
 		addr[0] = '\0';
 	if(!parseURL(url, hostname, &port, &path, &scope_id))
 		return NULL;
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printf("parsed url : hostname='%s' port=%hu path='%s' scope_id=%u\n",
 	       hostname, port, path, scope_id);
 #endif

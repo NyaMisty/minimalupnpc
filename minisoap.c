@@ -101,7 +101,7 @@ int soapPostSubmit(SOCKET fd,
 					   url, httpversion, host, portstr, bodysize, action);
 	if ((unsigned int)headerssize >= sizeof(headerbuf))
 		return -1;
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	/*printf("SOAP request : headersize=%d bodysize=%d\n",
 	       headerssize, bodysize);
 	*/

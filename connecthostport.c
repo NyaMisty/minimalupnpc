@@ -195,7 +195,7 @@ SOCKET connecthostport(const char * host, unsigned short port,
 	{
 		if(!ISINVALID(s))
 			closesocket(s);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("ai_family=%d ai_socktype=%d ai_protocol=%d (PF_INET=%d, PF_INET6=%d)\n",
 		       p->ai_family, p->ai_socktype, p->ai_protocol, PF_INET, PF_INET6);
 #endif

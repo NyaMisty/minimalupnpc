@@ -50,7 +50,7 @@ GetValueFromNameValueListIgnoreNS(struct NameValueParserData * pdata,
 #endif
 
 /* DisplayNameValueList() */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 void
 DisplayNameValueList(char * buffer, int bufsize);
 #endif

@@ -87,7 +87,7 @@ MINIUPNP_LIBSPEC void parserootdesc(const char * buffer, int bufsize, struct IGD
 	parser.datafunc = IGDdata;
 	parser.attfunc = 0;
 	parsexml(&parser);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printIGD(data);
 #endif
 }
@@ -207,7 +207,7 @@ simpleUPnPcommand2(SOCKET s, const char * url, const char * service,
 
 	n = soapPostSubmit(s, path, hostname, port, soapact, soapbody, httpversion);
 	if(n<=0) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("Error sending SOAP request\n");
 #endif
 		closesocket(s);
@@ -215,7 +215,7 @@ simpleUPnPcommand2(SOCKET s, const char * url, const char * service,
 	}
 
 	buf = getHTTPResponse(s, bufsize, &status_code);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	if(*bufsize > 0 && buf)
 	{
 		printf("HTTP %d SOAP Response :\n%.*s\n", status_code, *bufsize, buf);
@@ -247,7 +247,7 @@ simpleUPnPcommand(int s, const char * url, const char * service,
 	buf = simpleUPnPcommand2((SOCKET)s, url, service, action, args, bufsize, "1.0");
 	if (!buf || *bufsize == 0)
 	{
-#if DEBUG
+#if MINIUPNP_DEBUG
 	    printf("Error or no result from SOAP request; retrying with HTTP/1.1\n");
 #endif
 		buf = simpleUPnPcommand2((SOCKET)s, url, service, action, args, bufsize, "1.1");
@@ -291,17 +291,17 @@ upnpDiscoverDevices(const char * const deviceTypes[],
 			minissdpd_devlist = getDevicesFromMiniSSDPD(deviceTypes[deviceIndex],
 			                                            minissdpdsock, 0);
 			if(minissdpd_devlist) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 				printf("returned by MiniSSDPD: %s\t%s\n",
 				       minissdpd_devlist->st, minissdpd_devlist->descURL);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 				if(!strstr(minissdpd_devlist->st, "rootdevice"))
 					only_rootdevice = 0;
 				for(tmp = minissdpd_devlist; tmp->pNext != NULL; tmp = tmp->pNext) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 					printf("returned by MiniSSDPD: %s\t%s\n",
 					       tmp->pNext->st, tmp->pNext->descURL);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 					if(!strstr(tmp->st, "rootdevice"))
 						only_rootdevice = 0;
 				}
@@ -487,7 +487,7 @@ GetUPNPUrls(struct UPNPUrls * urls, struct IGDdatas * data,
 	urls->controlURL_6FC = build_absolute_url(data->urlbase, descURL,
 	                                          data->IPv6FC.controlurl, scope_id);
 
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	printf("urls->ipcondescURL='%s'\n", urls->ipcondescURL);
 	printf("urls->controlURL='%s'\n", urls->controlURL);
 	printf("urls->controlURL_CIF='%s'\n", urls->controlURL_CIF);
@@ -563,7 +563,7 @@ UPNP_GetValidIGD(struct UPNPDev * devlist,
 
 	if(!devlist)
 	{
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("Empty devlist\n");
 #endif
 		return 0;
@@ -583,7 +583,7 @@ UPNP_GetValidIGD(struct UPNPDev * devlist,
 		desc[i].xml = miniwget_getaddr(dev->descURL, &(desc[i].size),
 		                               desc[i].lanaddr, sizeof(desc[i].lanaddr),
 		                               dev->scope_id, &status_code);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		if(!desc[i].xml)
 		{
 			printf("error getting XML description %s\n", dev->descURL);
@@ -621,7 +621,7 @@ UPNP_GetValidIGD(struct UPNPDev * devlist,
 				  if(state >= 2)
 				    goto free_and_return;
 				  is_connected = UPNPIGD_IsConnected(urls, data);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 				  printf("UPNPIGD_IsConnected(%s) = %d\n",
 				     urls->controlURL, is_connected);
 #endif
@@ -633,7 +633,7 @@ UPNP_GetValidIGD(struct UPNPDev * devlist,
 				  }
 				  FreeUPNPUrls(urls);
 				  if(data->second.servicetype[0] != '\0') {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 				    printf("We tried %s, now we try %s !\n",
 				           data->first.servicetype, data->second.servicetype);
 #endif
@@ -643,7 +643,7 @@ UPNP_GetValidIGD(struct UPNPDev * devlist,
 				    memcpy(&data->second, &data->tmp, sizeof(struct IGDdatas_service));
 				    GetUPNPUrls(urls, data, dev->descURL, dev->scope_id);
 				    is_connected = UPNPIGD_IsConnected(urls, data);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 				    printf("UPNPIGD_IsConnected(%s) = %d\n",
 				       urls->controlURL, is_connected);
 #endif

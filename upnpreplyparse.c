@@ -44,10 +44,10 @@ NameValueParserEndElt(void * d, const char * name, int namelen)
 		if(nv == NULL)
 		{
 			/* malloc error */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 			fprintf(stderr, "%s: error allocating memory",
 			        "NameValueParserEndElt");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 			return;
 		}
 	    if(l>=(int)sizeof(nv->value))
@@ -83,10 +83,10 @@ NameValueParserGetData(void * d, const char * datas, int l)
 		if(!data->portListing)
 		{
 			/* malloc error */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 			fprintf(stderr, "%s: error allocating memory",
 			        "NameValueParserGetData");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 			return;
 		}
 		memcpy(data->portListing, datas, l);
@@ -178,7 +178,7 @@ GetValueFromNameValueListIgnoreNS(struct NameValueParserData * pdata,
 
 /* debug all-in-one function
  * do parsing then display to stdout */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 void
 DisplayNameValueList(char * buffer, int bufsize)
 {
@@ -193,5 +193,5 @@ DisplayNameValueList(char * buffer, int bufsize)
     }
     ClearNameValueList(&pdata);
 }
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 

@@ -244,10 +244,10 @@ requestDevicesFromMiniSSDPD(int s, const char * devtype)
 	if(p + stsize > buffer + sizeof(buffer))
 	{
 		/* devtype is too long ! */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		fprintf(stderr, "devtype is too long ! stsize=%u sizeof(buffer)=%u\n",
 		        stsize, (unsigned)sizeof(buffer));
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		return MINISSDPC_INVALID_INPUT;
 	}
 	memcpy(p, devtype, stsize);
@@ -293,9 +293,9 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 				*error = MINISSDPC_INVALID_SERVER_REPLY;
 			return devlist;
 		}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("  urlsize=%u", urlsize);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		url = malloc(urlsize);
 		if(url == NULL) {
 			if (error)
@@ -314,9 +314,9 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 				*error = MINISSDPC_INVALID_SERVER_REPLY;
 			goto free_url_and_return;
 		}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("   stsize=%u", stsize);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		st = malloc(stsize);
 		if (st == NULL) {
 			if (error)
@@ -335,9 +335,9 @@ receiveDevicesFromMiniSSDPD(int s, int * error)
 				*error = MINISSDPC_INVALID_SERVER_REPLY;
 			goto free_url_and_st_and_return;
 		}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("   usnsize=%u\n", usnsize);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 		tmp = (struct UPNPDev *)malloc(sizeof(struct UPNPDev)+urlsize+stsize+usnsize);
 		if(tmp == NULL) {
 			if (error)
@@ -602,7 +602,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			if (dwRetVal == NO_ERROR) {
 				pCurrAddresses = pAddresses;
 				while (pCurrAddresses) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 					int i;
 					PIP_ADAPTER_MULTICAST_ADDRESS pMulticast = NULL;
 					PIP_ADAPTER_ANYCAST_ADDRESS pAnycast = NULL;
@@ -645,7 +645,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 							PRINT_SOCKET_ERROR("setsockopt");
 						}
 						((struct sockaddr_in *)&sockudp_r)->sin_addr.s_addr = ipv4->sin_addr.s_addr;
-#ifndef DEBUG
+#ifndef MINIUPNP_DEBUG
 						break;
 #endif
 					}
@@ -715,7 +715,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 				PRINT_SOCKET_ERROR("setsockopt IPV6_MULTICAST_IF");
 			}
 #else
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 			printf("Setting of multicast interface not supported in IPv6 under Windows.\n");
 #endif
 #endif
@@ -778,7 +778,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 				}
 #endif
 #else /* _WIN32 */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 				printf("Setting of multicast interface not supported with interface name.\n");
 #endif
 #endif /* #ifdef HAS_IP_MREQN / !defined(_WIN32) */
@@ -821,7 +821,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 				*error = MINISSDPC_MEMORY_ERROR;
 			goto error;
 		}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		/*printf("Sending %s", bufr);*/
 		printf("Sending M-SEARCH request to %s with ST: %s\n",
 		       ipv6 ?
@@ -877,7 +877,7 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 			for(p = servinfo; p; p = p->ai_next) {
 				n = sendto(sudp, bufr, n, 0, p->ai_addr, MSC_CAST_INT p->ai_addrlen);
 				if (n < 0) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 					char hbuf[NI_MAXHOST], sbuf[NI_MAXSERV];
 					if (getnameinfo(p->ai_addr, (socklen_t)p->ai_addrlen, hbuf, sizeof(hbuf), sbuf,
 					                sizeof(sbuf), NI_NUMERICHOST | NI_NUMERICSERV) == 0) {
@@ -912,9 +912,9 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 					goto error;
 				} else if (n == 0) {
 					/* no data or Time Out */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 					printf("NODATA or TIMEOUT\n");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 					if (devlist && !searchalltypes) {
 						/* found some devices, stop now*/
 						if(error)
@@ -930,10 +930,10 @@ ssdpDiscoverDevices(const char * const deviceTypes[],
 					int usnsize=0;
 					parseMSEARCHReply(bufr, n, &descURL, &urlsize, &st, &stsize, &usn, &usnsize);
 					if(st&&descURL) {
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 						printf("M-SEARCH Reply:\n  ST: %.*s\n  USN: %.*s\n  Location: %.*s\n",
 						       stsize, st, usnsize, (usn?usn:""), urlsize, descURL);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 						for(tmp=devlist; tmp; tmp = tmp->pNext) {
 							if(strncmp(tmp->descURL, descURL, urlsize) == 0 &&
 							   tmp->descURL[urlsize] == '\0' &&

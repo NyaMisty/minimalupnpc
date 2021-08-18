@@ -87,9 +87,9 @@ receivedata(SOCKET socket,
 #ifdef MINIUPNPC_GET_SRC_ADDR
 	if (src_addr.ss_family == AF_INET6) {
 		const struct sockaddr_in6 * src_addr6 = (struct sockaddr_in6 *)&src_addr;
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 		printf("scope_id=%u\n", src_addr6->sin6_scope_id);
-#endif	/* DEBUG */
+#endif	/* MINIUPNP_DEBUG */
 		if(scope_id)
 			*scope_id = src_addr6->sin6_scope_id;
 	} else {

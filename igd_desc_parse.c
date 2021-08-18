@@ -90,7 +90,7 @@ void IGDdata(void * d, const char * data, int l)
 	}
 }
 
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 void printIGD(struct IGDdatas * d)
 {
 	printf("urlbase = '%s'\n", d->urlbase);
@@ -119,5 +119,5 @@ void printIGD(struct IGDdatas * d)
 	printf(" eventSubURL = '%s'\n", d->IPv6FC.eventsuburl);
 	printf(" SCPDURL = '%s'\n", d->IPv6FC.scpdurl);
 }
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 

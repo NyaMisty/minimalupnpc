@@ -673,7 +673,7 @@ UPNP_GetPortMappingNumberOfEntries(const char * controlURL,
 	                                &bufsize))) {
 		return UPNPCOMMAND_HTTP_ERROR;
 	}
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 	DisplayNameValueList(buffer, bufsize);
 #endif
  	ParseNameValue(buffer, bufsize, &pdata);

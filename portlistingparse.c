@@ -6,9 +6,9 @@
  * in the LICENCE file provided within the distribution */
 #include <string.h>
 #include <stdlib.h>
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 #include <stdio.h>
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 #include "portlistingparse.h"
 #include "minixml.h"
 
@@ -73,10 +73,10 @@ startelt(void * d, const char * name, int l)
 		if(pm == NULL)
 		{
 			/* malloc error */
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 			fprintf(stderr, "%s: error allocating memory",
 			        "startelt");
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 			return;
 		}
 		pm->l_next = pdata->l_head;	/* insert in list */

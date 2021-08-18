@@ -42,8 +42,8 @@ struct IGDdatas {
 void IGDstartelt(void *, const char *, int);
 void IGDendelt(void *, const char *, int);
 void IGDdata(void *, const char *, int);
-#ifdef DEBUG
+#ifdef MINIUPNP_DEBUG
 void printIGD(struct IGDdatas *);
-#endif /* DEBUG */
+#endif /* MINIUPNP_DEBUG */
 
 #endif /* IGD_DESC_PARSE_H_INCLUDED */

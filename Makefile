@@ -29,10 +29,10 @@ export HAVE_IPV6
 
 CC ?= gcc
 #AR = gar
-#CFLAGS = -O -g -DDEBUG
+#CFLAGS = -O -g -DMINIUPNP_DEBUG
 CFLAGS ?= -O
 #CFLAGS = -g -ggdb -O0 -fsanitize=address -fsanitize=undefined -fsanitize=leak -fno-omit-frame-pointer
-#CFLAGS += -DDEBUG
+#CFLAGS += -DMINIUPNP_DEBUG
 #LDFLAGS = -fsanitize=address -fsanitize=undefined -fsanitize=leak
 CFLAGS += -Wall
 CFLAGS += -W -Wstrict-prototypes
